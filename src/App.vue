@@ -1,32 +1,33 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+  <div>
+    <Header />
+    <router-view></router-view>
+    <Footer v-show="!$route.meta.isHideFooter" />
   </div>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+// import { reqBaseCategoryList } from "@/api";
 
-nav {
-  padding: 30px;
+export default {
+  name: "App",
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  async mounted() {
+    // const result = await reqBaseCategoryList();
+    // console.log("result", result)
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+    // 在APP组件中调用，切换/跳转路由时不会再次调用
+    this.$store.dispatch('getBaseCategoryList')
+  },
+  
+  components: {
+    Header,
+    Footer,
+  },
+};
+</script>
+
+<style lang="less" scoped>
 </style>
