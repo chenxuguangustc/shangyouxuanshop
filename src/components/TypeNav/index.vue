@@ -14,10 +14,20 @@
         <a href="###">秒杀</a>
       </nav>
       <div class="sort">
-        <div class="all-sort-list2">
-          <div class="item" v-for="(c1, index) in categoryList" :key="c1.categoryId">
+        <div class="all-sort-list2" @click="toSearch">
+          <div
+            class="item"
+            v-for="(c1, index) in categoryList"
+            :key="c1.categoryId"
+          >
             <h3>
               <a
+                href="javascript:"
+                :data-categoryName="c1.categoryName"
+                :data-category1Id="c1.categoryId"
+                >{{ c1.categoryName }}</a
+              >
+              <!-- <a
                 href="javascript:"
                 @click="
                   $router.push(
@@ -25,7 +35,7 @@
                   )
                 "
                 >{{ c1.categoryName }}</a
-              >
+              > -->
               <!-- <router-link
                 :to="`/search?categoryName=${c1.categoryName}&category1Id=${c1.categoryId}`"
                 >{{ c1.categoryName }}</router-link
@@ -39,8 +49,13 @@
                   :key="c2.categoryId"
                 >
                   <dt>
-                    <!-- <a href="">{{c2.categoryName}}</a> -->
                     <a
+                      href="javascript:"
+                      :data-categoryName="c2.categoryName"
+                      :data-category2Id="c2.categoryId"
+                      >{{ c2.categoryName }}</a
+                    >
+                    <!-- <a
                       href="javascript:"
                       @click="
                         $router.push(
@@ -48,7 +63,7 @@
                         )
                       "
                       >{{ c2.categoryName }}</a
-                    >
+                    > -->
                     <!-- <router-link
                       :to="`/search?categoryName=${c2.categoryName}&category2Id=${c2.categoryId}`"
                       >{{ c2.categoryName }}</router-link
@@ -56,8 +71,13 @@
                   </dt>
                   <dd>
                     <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                      <!-- <a href="">{{c3.categoryName}}</a> -->
                       <a
+                        href="javascript:"
+                        :data-categoryName="c3.categoryName"
+                        :data-category3Id="c3.categoryId"
+                        >{{ c3.categoryName }}</a
+                      >
+                      <!-- <a
                         href="javascript:"
                         @click="
                           $router.push(
@@ -65,7 +85,7 @@
                           )
                         "
                         >{{ c3.categoryName }}</a
-                      >
+                      > -->
                       <!-- <router-link
                         :to="`/search?categoryName=${c3.categoryName}&category3Id=${c3.categoryId}`"
                         >{{ c3.categoryName }}</router-link
@@ -84,30 +104,49 @@
 
 <script>
 // import { reqBaseCategoryList } from "@/api";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   name: "TypeNav",
 
-  data() {
-    return {
-      // result: [],
-    };
-  },  
-
   computed: {
     //  ...mapState(['home.categoryList'])  // 不可以
     ...mapState({
-        // categoryList: 'home.categoryList' // 不可以
-        // 用来指定计算属性值的回调函数, state是总状态
-        categoryList: (state) => state.home.baseCategoryList,
-      }),
+      // categoryList: 'home.categoryList' // 不可以
+      // 用来指定计算属性值的回调函数, state是总状态
+      categoryList: (state) => state.home.baseCategoryList,
+    }),
 
     // async mounted() {
     //   this.result = (await reqBaseCategoryList()).data.splice(0, 15);
     //   console.log("result", this.result);
     // },
-  }
+  },
+
+  methods: {
+    toSearch(event) {
+      const target = event.target;
+      console.dir(target);
+      const query = {}
+
+      const { categoryname, category1id, category2id, category3id } = target.dataset;
+      if (categoryname) {
+        query.categoryName = categoryname
+        
+        if (category1id) {
+          query.category1Id = category1id;
+        } else if (category2id) {
+          query.category2Id = category2id;
+        } else if (category3id) {
+          query.category3Id = category3id;
+        }
+      }
+      this.$router.push({
+        name: 'search',
+        query
+      });
+    },
+  },
 };
 </script>
 
