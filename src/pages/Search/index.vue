@@ -1,5 +1,6 @@
 <template>
   <div>
+    <type-nav></type-nav>
     <div>搜索关键字: {{ $route.params.keyword }}</div>
     <div>搜索关键字: {{ $route.query.keyword2 }}</div>
     <div>搜索关键字: {{ keyword3 }}</div>

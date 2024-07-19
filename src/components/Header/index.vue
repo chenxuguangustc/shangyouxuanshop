@@ -59,10 +59,22 @@ export default {
 
   methods: {
     search() {
-      if (this.keyword) {
-        this.$router.push(
-          `/search/${this.keyword}?keyword2=${this.keyword.toUpperCase()}`
-        ).catch(() => {})
+      const location = {
+          name: 'search',
+          query: this.$route.query,
+          params: {keyword: this.keyword}
+        }
+
+
+      if (this.keyword) {     
+        // location.params = {
+        //   keyword: this.keyword
+        // }
+
+        // this.$router.push(
+        //   `/search/${this.keyword}?keyword2=${this.keyword.toUpperCase()}`
+        // ).catch(() => {})
+        this.$router.push(location).catch(() => {})
       } else {
         this.$router.push('/search')
       }

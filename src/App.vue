@@ -17,7 +17,7 @@ export default {
   async mounted() {
     // const result = await reqBaseCategoryList();
     // console.log("result", result)
-
+ 
     // 在APP组件中调用，切换/跳转路由时不会再次调用
     this.$store.dispatch('getBaseCategoryList')
   },
