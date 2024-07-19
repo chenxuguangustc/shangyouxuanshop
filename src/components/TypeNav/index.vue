@@ -200,7 +200,7 @@ export default {
         params: this.$route.params
       }
 
-      this.$router.push(location);
+      this.$router.push(location)
     },
   },
 };

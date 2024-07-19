@@ -20,6 +20,7 @@ export default {
  
     // 在APP组件中调用，切换/跳转路由时不会再次调用
     this.$store.dispatch('getBaseCategoryList')
+    this.$store.dispatch('getBannerList')
   },
   
   components: {
