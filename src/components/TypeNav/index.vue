@@ -201,6 +201,8 @@ export default {
       }
 
       this.$router.push(location)
+
+      this.hideFirst()
     },
   },
 };

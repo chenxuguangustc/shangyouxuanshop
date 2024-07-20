@@ -12,7 +12,13 @@ Vue.config.productionTip = false
 // 注册全局组件
 Vue.component(TypeNav.name, TypeNav)
 
+// 将全局事件总线对象(vm)保存到Vue原型对象上
+// Vue.prototype.$bus = new Vue() 但是这种方法多创建了一个Vue对象
+
 new Vue({
+  beforeCreate() {
+    Vue.prototype.$bus = this
+  },
   router,
   store,  // 注册vuex的store对象  ==> 所有组件对象都有一个$store属性
   render: h => h(App)

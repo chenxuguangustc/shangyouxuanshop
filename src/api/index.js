@@ -11,6 +11,9 @@ export const reqBaseCategoryList = ()=>ajax.get('/product/getBaseCategoryList')
 // 获取首页广告轮播效果，
 export const reqBannerList = () => ajax('/cms/banner')
 
+// 请求搜索匹配的商品相关数据
+export const reqProductList = (searchParams) => ajax.post('/list', searchParams)
+
 // mock接口函数
 export const reqRecommends = () => mockAjax('/recommends')
 export const reqFloors = () => mockAjax('/floors')

@@ -87,6 +87,20 @@ export default {
       //   });
     },
   },
+
+  mounted() {
+    // 2、在Header中: 通过事件总线对象绑定自定义事件监听, 在回调中删除输入数据
+    // $bus本质上就是vm，vm的属性和方法都有一个$开头，静态属性和方法没有$开头
+    // 使用箭头函数是想用mounted的this
+    this.$bus.$on('removeKeyword', () => {
+      this.keyword = ''
+    })
+  },
+
+  beforeDestroy() {
+    // 4、在哪个组件中绑定事件监听就在哪个组件销毁前解绑事件监听
+    this.$bus.$off('removeKeyword')
+  }
 };
 </script>
   
