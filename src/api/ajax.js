@@ -5,6 +5,7 @@
 3. 成功返回的数据不再是response, 而直接是响应体数据response.data
 4. 统一处理请求错误, 具体请求也可以选择处理或不处理
 */
+import store from '@/store'
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -20,6 +21,13 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
   // 显示请求中的水平进度条
   NProgress.start()
+
+  // 携带登陆后的标识token
+  const {token} = store.state.user
+  if (token) {
+    config.headers.token = token
+  }
+
 
   // 必须返回配置对象
   return config

@@ -5,18 +5,18 @@
       <h3>
         注册新用户
         <span class="go"
-          >我有账号，去 
+          >我有账号，去
           <router-link to="/Login">登陆</router-link>
         </span>
       </h3>
       <div class="content">
         <label>手机号:</label>
-        <input type="text" placeholder="请输入你的手机号" />
+        <input type="text" placeholder="请输入你的手机号" v-model="phone" />
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>验证码:</label>
-        <input type="text" placeholder="请输入验证码" />
+        <input type="text" placeholder="请输入验证码" v-model="code" />
         <img
           ref="code"
           src="http://182.92.128.115/api/user/passport/code"
@@ -26,21 +26,25 @@
       </div>
       <div class="content">
         <label>登录密码:</label>
-        <input type="text" placeholder="请输入你的登录密码" />
+        <input
+          type="text"
+          placeholder="请输入你的登录密码"
+          v-model="password"
+        />
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>确认密码:</label>
-        <input type="text" placeholder="请输入确认密码" />
+        <input type="text" placeholder="请输入确认密码" v-model="password2" />
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="controls">
-        <input name="m1" type="checkbox" />
+        <input name="m1" type="checkbox" v-model="ischeck" />
         <span>同意协议并注册《尚品汇用户协议》</span>
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="btn">
-        <button>完成注册</button>
+        <button @click="register">完成注册</button>
       </div>
     </div>
 
@@ -63,8 +67,61 @@
 </template>
 
 <script>
+import { reqRegister } from "@/api/index";
+
 export default {
   name: "Register",
+
+  data() {
+    return {
+      phone: "",
+      password: "",
+      code: "",
+      password2: "",
+      ischeck: true,
+    };
+  },
+
+  methods: {
+    /* 
+      注册
+      */
+    /* async register() {
+      // 进行前台表单校验
+      const success = await this.$validator.validateAll(); // 对所有表单项进行验证
+      if (success) {
+        // 校验通过
+        // 分发注册的异步action
+        const { phone, password, code } = this;
+        try {
+          await this.$store.dispatch("register", { phone, password, code });
+          // 成功了, 跳转到登陆
+          this.$router.replace("/login");
+          this.$message.success("注册成功, 请登陆");
+        } catch (error) {
+          // 失败了, 提示
+          alert(error.message);
+        }
+      }
+    }, */
+
+    async register() {
+      // 获取用户信息
+      let { phone, code, password, password2 } = this;
+
+      if (phone && code && password && password2 && password === password2) {
+        try {
+          // 发请求注册用户, {} 以一个对象的形式发送出去，因为他拿到的是一个Promise，所以使用await,加了await
+          // 所以要使用try...catch
+          await this.$store.dispatch("register", { phone, code, password });
+          alert("注册成功");
+          this.$router.push("/Login");
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+    },
+  },
 };
 </script>
 

@@ -5,7 +5,11 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="$store.state.user.userInfo.name">
+            <a href="jacascript:;">{{ $store.state.user.userInfo.name }}</a>
+            <a href="javascript:;" class="register" @click="logout">退出登录</a>
+          </p>
+          <p v-else>
             <span>请</span>
             <router-link to="/login">登陆</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
@@ -86,6 +90,10 @@ export default {
       //     query: {keyword2: this.keyword.toUpperCase()}
       //   });
     },
+
+    logout() {
+      this.$store.dispatch('logout')
+    }
   },
 
   mounted() {
