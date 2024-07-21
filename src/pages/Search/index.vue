@@ -240,6 +240,18 @@ export default {
         categoryName,
         keyword,
       };
+
+      this.options1 = {
+        ...this.options,
+        category1Id,
+        category2Id,
+        category3Id,
+        categoryName,
+        keyword,
+      };
+
+      console.log('options', this.options1)
+      console.log('option', this.options)
     },
 
     getShopList() {
