@@ -17,11 +17,19 @@
             <li class="with-x" v-if="options.keyword">
               {{ options.keyword }}<i @click="removeKeyword">×</i>
             </li>
+            <li class="with-x" v-if="options.trademark">
+              {{ options.trademark }}<i @click="removeTrademark">×</i>
+            </li>
+
+            <!-- 这里的key不适合用index，因为这里的index可能被删除，而prop不会重复，所以这里可以用prop -->
+            <!-- <li class="with-x" v-for="prop in options.props" :key="prop">
+              {{ options.trademark }}<i @click="removeTrademark">×</i>
+            </li> -->
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :setTrademark="setTrademark" @addProp="addProp"/>
 
         <!--details-->
         <div class="details clearfix">
@@ -153,7 +161,6 @@ export default {
   // created在渲染模板之前调用
   created() {
     // this.updateParams();
-
     // this.getShopList();
   },
 
@@ -178,10 +185,10 @@ export default {
 
     $route: {
       handler() {
-      this.updateParams();
-      this.getShopList();
+        this.updateParams();
+        this.getShopList();
       },
-      immediate: true // 初始化的时候立即执行一次
+      immediate: true, // 初始化的时候立即执行一次
     },
   },
 
@@ -189,37 +196,37 @@ export default {
     // 删除分类的条件
     removeCategory() {
       // 更新分类相关的数据
-      this.options.category1Id = ''
-      this.options.category2Id = ''
-      this.options.category3Id = ''
-      this.options.categoryName = ''
+      this.options.category1Id = "";
+      this.options.category2Id = "";
+      this.options.category3Id = "";
+      this.options.categoryName = "";
 
       // 重新发请求
       // this.getShopList()
 
       // 应该重新跳路由，将不要的数据丢掉
       this.$router.push({
-        name: 'search',
-        query: this.$route.params
-      })
+        name: "search",
+        query: this.$route.params,
+      });
     },
 
     // 删除关键字的条件
     removeKeyword() {
       // 更新分类相关的数据
-      this.options.keyword = ''
+      this.options.keyword = "";
 
       // 重新发请求
       // this.getShopList()
 
       // 应该重新跳路由，将不要的数据丢掉
       this.$router.push({
-        name: 'search',
-        query: this.$route.query
-      })
+        name: "search",
+        query: this.$route.query,
+      });
 
       // 3、在search组件中分发事件
-      this.$bus.$emit('removeKeyword')
+      this.$bus.$emit("removeKeyword");
     },
 
     /* 
@@ -250,12 +257,48 @@ export default {
         keyword,
       };
 
-      console.log('options', this.options1)
-      console.log('option', this.options)
+      console.log("options", this.options1);
+      console.log("option", this.options);
     },
 
     getShopList() {
       this.$store.dispatch("getProductList", this.options);
+    },
+
+    /* 
+    设置品牌条件
+    */
+    setTrademark(trademark) {
+      // 如果当前的品牌已经在条件中了，直接结束
+      if (this.options.trademark === trademark) return;
+
+      // 更新options中的trademark为指定的值
+      this.options.trademark = trademark;
+      // 重新获取数据列表
+      this.getShopList();
+    },
+
+    /* 
+    删除品牌条件，重新进行发送
+    */
+    removeTrademark() {
+      this.options.trademark = "";
+
+      this.getShopList();
+    },
+
+    /* 
+    添加属性条件，这个功能没有实现
+    */
+    addProp(prop) {
+      const { props } = this.options;
+      // 如果已经存在数组中了，不添加，
+      if (props.includes(prop)) return;
+
+      // 向props数组中添加一个条件字符串， 子向父通信 ==> Vue自定义事件
+      props.push(prop);
+
+      this.getShopList();
     },
   },
 
