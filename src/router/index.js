@@ -9,6 +9,11 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history', // 没有#的模式
   routes, // 注册所有路由
+
+  // 控制滚动行为
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0}
+  }
 })
 
 // token校验逻辑

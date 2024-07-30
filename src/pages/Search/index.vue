@@ -29,16 +29,26 @@
         </div>
 
         <!--selector-->
-        <SearchSelector :setTrademark="setTrademark" @addProp="addProp"/>
+        <SearchSelector :setTrademark="setTrademark" @addProp="addProp" />
 
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
-                </li>
+                <!-- 动态样式，判断当前类名是否显示，为true则显示，false不显示 -->
+                <!-- <li :class="{ active: orderArr[0] === '1' }">
+                  <a href="#"
+                    >综合
+                    <i
+                      class="iconfont"                      
+                      :class="orderArr[1] === 'desc' ? 'icondown' : 'iconup'" 
+                      v-if="options.order.split(':')[0] === '1'"
+                    ></i>
+                    三元运算符不能用对象的形式，直接用一个表达式就可以了
+                  </a>
+                </li> -->
+                <!-- 这里因为要导入阿里图标库，偷懒没做，所以注释了，思路是上面那样的，下面使用了计算属性得到orderArr -->
                 <li>
                   <a href="#">销量</a>
                 </li>
@@ -62,9 +72,9 @@
               <li class="yui3-u-1-5" v-for="item in goodsList" :key="item.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
+                    <router-link :to="'/detail/' + item.id"
                       ><img :src="item.defaultImg"
-                    /></a>
+                    /></router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -73,11 +83,8 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a
-                      href="javascript:"
-                      title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      >{{ item.title }}</a
-                    >
+                    <router-link :to="'/detail/' + item.id"
+                      >{{ item.title }}</router-link>
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
@@ -97,35 +104,13 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <Pagination
+            :currentPage="options.pageNo"
+            :total="total"
+            :pageSize="options.pageSize"
+            :showPageNo="3"
+            @currentChange="currentChange"
+          />
         </div>
       </div>
     </div>
@@ -153,7 +138,7 @@ export default {
         order: "1:desc", // 排序方式  1: 综合,2: 价格 asc: 升序,desc: 降序  "1:desc"
 
         pageNo: 1, // 页码
-        pageSize: 5, //	每页数量
+        pageSize: 10, //	每页数量
       },
     };
   },
@@ -173,8 +158,16 @@ export default {
     //   goodsList: (state) => state.search.productList.goodsList || []
     // }),
 
-    // vuex返回的是getters，这里可以直接用
-    ...mapGetters(["goodsList"]),
+    // vuex返回的是getters，这里可以直接用，total是总页数
+    ...mapGetters(["goodsList", "total"]),
+
+    /* 
+    当重复的信息太多的时候，可以利用计算属性得到
+    得到包含当前分类项标识和排序方式的数组,并且计算属性有缓存，所以效率会更高
+    */
+    orderArr() {
+      return this.options.order.split(":");
+    },
   },
 
   watch: {
@@ -298,6 +291,14 @@ export default {
       // 向props数组中添加一个条件字符串， 子向父通信 ==> Vue自定义事件
       props.push(prop);
 
+      this.getShopList();
+    },
+
+    /* 
+    当前页码发生改变的事件回调
+    */
+    currentChange(page) {
+      this.options.pageNo = page;
       this.getShopList();
     },
   },

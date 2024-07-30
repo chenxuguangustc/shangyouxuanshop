@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import TypeNav from '@/components/TypeNav'
+import Pagination from '@/components/Pagination'
 
 // 只需要引入就行，因为没有向外面暴露什么东西，所以不需要用from
 import './mock/mockServer'
@@ -11,6 +12,7 @@ Vue.config.productionTip = false
 
 // 注册全局组件
 Vue.component(TypeNav.name, TypeNav)
+Vue.component(Pagination.name, Pagination)
 
 // 将全局事件总线对象(vm)保存到Vue原型对象上
 // Vue.prototype.$bus = new Vue() 但是这种方法多创建了一个Vue对象
