@@ -60,6 +60,18 @@ export const reqUserLogout = () => {
   })
 }
 
+// 获取商品详情信息
+export const reqDetailInfo = (skuId) => ajax.get(`/item/${skuId}`)
+
+
+// 添加购物车（还可以修改购物车的商品数量）
+export const reqAddCart = (skuId, skuNum) => {
+  return ajax({
+    url:`/cart/addToCart/${skuId}/${skuNum}`,
+    method: 'post'
+  })
+}
+
 
 
 // 快速测试一下

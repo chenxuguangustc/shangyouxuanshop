@@ -10,7 +10,7 @@ const router = new VueRouter({
   mode: 'history', // 没有#的模式
   routes, // 注册所有路由
 
-  // 控制滚动行为
+  // 控制滚动行为，router的特性
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0}
   }
