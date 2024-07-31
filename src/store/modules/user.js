@@ -11,6 +11,9 @@ import {
 } from '@/api'
 
 const state = {
+  // 获取临时标识id
+  userTempId: getUserTempId(),
+  
   // 先从localstorage中获取token，
   token: getToken(),
   userInfo: {},
@@ -55,7 +58,6 @@ const actions = {
   登陆的异步action
   */
   async reqLogin({ commit }, userInfo) {
-    console.log('111111')
     const result = await reqLogin(userInfo)
     if (result.code === 200) {
       const userInfo = result.data

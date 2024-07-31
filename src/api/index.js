@@ -72,6 +72,34 @@ export const reqAddCart = (skuId, skuNum) => {
   })
 }
 
+// 获取购物车列表
+export const reqCartList = () => {
+  return ajax({
+    url: '/cart/cartList',
+    method: 'get'
+  })
+}
+
+
+// 修改购物车的选中状态
+export const reqUpdateCartChecked = (skuId, isChecked) => {
+  return ajax({
+    url: `/cart/checkCart/${skuId}/${isChecked}`,
+    method: 'get'
+  })
+}
+
+// 获取交易页面信息
+/*
+10.获取订单交易页信息
+/api/order/auth/trade GET
+注意:接口已换,已配置新代理
+*/
+export const reqTradeInfo = () => ajax('/order/auth/trade')
+
+// 两种测试方式
+// 1、reqCartList()，可以直接在这个文件中调用这个函数，但是需要在main.js（import '@/api'）里面引用一下，因为这是一个单独的模块，一个模块不会随便走的，
+
 
 
 // 快速测试一下

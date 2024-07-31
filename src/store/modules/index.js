@@ -6,6 +6,7 @@ import search from './search'
 import user from './user'
 import detail from './detail'
 import shopcart from './shopcart'
+import trade from './trade'
 
 // 向外暴露包含所有vuex管理的模块的对象
 export default{
@@ -13,5 +14,6 @@ export default{
   search,
   user,
   detail,
-  shopcart
+  shopcart,
+  trade
 }

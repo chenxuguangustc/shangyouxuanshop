@@ -18,16 +18,22 @@ const service = axios.create({
   timeout: 15000   // 连接请求超时时间
 })
 
+
+// 拦截器中只能干两件事，添加其他功能nprogress，操作请求头和响应头添加token
 service.interceptors.request.use((config) => {
   // 显示请求中的水平进度条
   NProgress.start()
 
   // 携带登陆后的标识token
-  const {token} = store.state.user
+  const {token, userTempId} = store.state.user
   if (token) {
+    // config是拿到的请求报文
     config.headers.token = token
   }
 
+  if (userTempId) {
+    config.headers.userTempId = userTempId  
+  }
 
   // 必须返回配置对象
   return config
