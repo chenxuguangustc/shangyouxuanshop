@@ -69,6 +69,7 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
+        <!-- input选中与否和后面v-model绑定的值的真假相关， -->
         <input class="chooseAll" type="checkbox" v-model="isAllChecked" />
         <span>全选</span>
       </div>
@@ -99,6 +100,12 @@
 import { mapState } from "vuex";
 export default {
   name: "ShopCart",
+
+  data() {
+    return {
+      // aaa: 0
+    }
+  },
 
   mounted() {
     this.getCartList();
@@ -179,12 +186,14 @@ export default {
 
     isAllChecked: {
       get() {
+        // 这里返回的是0或1
         return this.shopCartList.every((item) => {
           return item.isChecked;
         });
       },
 
-      // val拿的是true或者false，所以将其转换成1或者0
+      // val拿的是true或者false，所以将其转换成1或者0，因为数据库后面的参数是0或1，val就是计算属性的新值
+      // 这个set调用的时机就是当isAllChecked的值变化的时候调用，
       async set(val) {
         console.log('val', val)
         // 这个是在拿updateCartCheckedAll的Promise的成功的结果
