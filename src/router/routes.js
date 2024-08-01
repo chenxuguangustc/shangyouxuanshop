@@ -5,6 +5,11 @@ import Login from '@/pages/Login'
 import Detail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
+import Trade from '@/pages/Trade'
+import Center from '@/pages/Center'
+import Pay from '@/pages/Pay'
+import PaySuccess from '@/pages/PaySuccess'
+
 
 /* 
 所有静态路由配置的数组
@@ -18,6 +23,26 @@ export default [
   {
     path: '/shopcart',
     component: ShopCart
+  },
+
+  {
+    path: '/paysuccess',
+    component: PaySuccess
+  },
+
+  {
+    path: '/pay',
+    component: Pay
+  },
+
+  {
+    path: '/center',
+    component: Center
+  },
+
+  {
+    path: '/trade',
+    component: Trade
   },
 
   {

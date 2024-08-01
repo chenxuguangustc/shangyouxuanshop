@@ -11,7 +11,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 // 配置不显示右上角的旋转进度条, 只显示水平进度条
-NProgress.configure({ showSpinner: false }) 
+NProgress.configure({ showSpinner: false })
 
 const service = axios.create({
   baseURL: "/api", // 基础路径
@@ -25,14 +25,14 @@ service.interceptors.request.use((config) => {
   NProgress.start()
 
   // 携带登陆后的标识token
-  const {token, userTempId} = store.state.user
+  const { token, userTempId } = store.state.user
   if (token) {
     // config是拿到的请求报文
     config.headers.token = token
   }
 
   if (userTempId) {
-    config.headers.userTempId = userTempId  
+    config.headers.userTempId = userTempId
   }
 
   // 必须返回配置对象
@@ -49,9 +49,10 @@ service.interceptors.response.use((response) => {
   NProgress.done()
 
   // 统一处理一下错误
-  alert( `请求出错: ${error.message||'未知错误'}`)
+  alert(`请求出错: ${error.message || '未知错误'}`)
 
-  // 后面可以选择不处理或处理
+  // 这里将Promise传递下去了，所以后面可以继续处理Promise
+  // 如果写成 new Promise(() => {}) 这样，这里Promise就被中断了，不可以继续处理
   return Promise.reject(error)
 })
 

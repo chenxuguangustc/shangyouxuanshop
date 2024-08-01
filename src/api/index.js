@@ -97,6 +97,13 @@ export const reqUpdateCartChecked = (skuId, isChecked) => {
 */
 export const reqTradeInfo = () => ajax('/order/auth/trade')
 
+// 请求提交订单
+export const reqSumitOrder = (tradeNo, tradeData) => ajax({
+  url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+  method: 'POST',
+  data: tradeData
+})
+
 // 两种测试方式
 // 1、reqCartList()，可以直接在这个文件中调用这个函数，但是需要在main.js（import '@/api'）里面引用一下，因为这是一个单独的模块，一个模块不会随便走的，
 
