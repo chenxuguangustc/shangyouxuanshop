@@ -73,8 +73,9 @@
                 <div class="list-wrap">
                   <div class="p-img">
                     <router-link :to="'/detail/' + item.id"
-                      ><img :src="item.defaultImg"
+                      ><img v-lazy="item.defaultImg"
                     /></router-link>
+                    <!-- v-lazy这个命令是那个插件提供的 -->
                   </div>
                   <div class="price">
                     <strong>

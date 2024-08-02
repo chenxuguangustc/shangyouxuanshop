@@ -104,6 +104,22 @@ export const reqSumitOrder = (tradeNo, tradeData) => ajax({
   data: tradeData
 })
 
+// 获取支付信息
+export const reqPayInfo = (orderId) => {
+  return ajax({
+    url: `/payment/weixin/createNative/${orderId}`,
+    method: 'GET'
+  })
+}
+
+/*
+14.查询支付订单状态
+/api/payment/weixin/queryPayStatus/{orderId} GET
+*/
+export const reqOrderStatus = orderId => ajax.get(`/payment/weixin/queryPayStatus/${orderId}`)
+
+ 
+
 // 两种测试方式
 // 1、reqCartList()，可以直接在这个文件中调用这个函数，但是需要在main.js（import '@/api'）里面引用一下，因为这是一个单独的模块，一个模块不会随便走的，
 

@@ -85,6 +85,19 @@ export default {
       password: "",
     };
   },
+ 
+  // 组件内守卫，类似于生命周期钩子
+  // beforeRouteEnter (to, from, next) {
+  //   // 在渲染该组件对应路由被confirm前调用，组件被创建前调用，因此不能使用组件实例this，此时组件实例还没有被创建
+  //   next(vm => {
+  //     // 这个vm是组件实例，不是Vue
+  //     if (vm.$store.state.user.token) {
+  //       next('/')
+  //     } else {
+  //       next()
+  //     }
+  //   })
+  // },
 
   methods: {
     async login() {

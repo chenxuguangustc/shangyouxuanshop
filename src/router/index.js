@@ -11,8 +11,8 @@ const router = new VueRouter({
   routes, // 注册所有路由
 
   // 控制滚动行为，router的特性
-  scrollBehavior (to, from, savedPosition) {
-    return { x: 0, y: 0}
+  scrollBehavior(to, from, savedPosition) {
+    return { x: 0, y: 0 }
   }
 })
 
@@ -58,7 +58,15 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     // 代表之前没登录过
-    next()
+
+    // 这里使用全局导航守卫
+    // 后期我们需要判断用户是不是去订单相关的页面，如果是那就先进行登录
+    // 交易相关的，   订单相关的，   支付相关的   用户中心相关的
+    if (to.path.indexOf('/trade') === 0 || to.path.startsWith('/pay') || to.path.startsWith('/center') || to.path.startsWith('/shopcart')) {
+      next('/login?redirect=' + to.path)
+    } else {
+      next()
+    }
   }
 })
 
