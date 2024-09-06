@@ -7,6 +7,7 @@
         <transition name="slide">
           <div class="sort" v-show="isShowFirst">
             <!--  -->
+            <!--  -->
             <div class="all-sort-list2" @click="toSearch">
               <div
                 class="item"
